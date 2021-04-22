@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 public class LoanTest {
-/*
+
     Loan testObject;
     Book testBook;
     LibraryUser testUser;
@@ -37,5 +37,5 @@ public class LoanTest {
 
         Assertions.assertEquals(expectedResult.hashCode(), testObject.hashCode());
 
-    }*/
+    }
 }
