@@ -123,8 +123,6 @@ class LoanRepositoryTest {
 
     @Test
     void findLoansByTerminatedIgnoreCase() {
-        List<Loan> loanList = new ArrayList<>();
-        loanRepository.findAll().iterator().forEachRemaining(loanList::add);
 
         assertEquals(1, loanRepository.findLoansByTerminatedIgnoreCase(true).size());
     }
