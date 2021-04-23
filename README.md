@@ -53,3 +53,11 @@ Creating entities:
    Clean up your code:
 1. Make sure you have no unused imports and commented out code.
 2. Commit and push
+
+Creating data transfer objects (DTO):
+1. Create LibraryUserDto and BookDto.
+2. Create LoanDto
+3. Unit test and commit. Creating the Service layer:
+4. Create one service class for each Entity.
+   a. Entity to Dto conversion and Dto to Entity conversion is up to you to handle.
+5. Unit test and commit.
