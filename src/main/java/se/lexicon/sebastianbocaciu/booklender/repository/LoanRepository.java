@@ -10,5 +10,5 @@ public interface LoanRepository extends CrudRepository<Loan, Long> {
 
     List<Loan> findLoansByLoanTakerUserId (int userId);
     List<Loan> findLoansByBook_BookId (int bookId);
-    List<Loan> findLoansByTerminatedIgnoreCase (boolean status);
+    List<Loan> findLoansByTerminated(boolean status);
 }

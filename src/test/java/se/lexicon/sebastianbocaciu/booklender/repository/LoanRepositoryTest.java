@@ -51,6 +51,7 @@ class LoanRepositoryTest {
         user.setName("test user 1");
         user.setEmail("test1@test.se");
         user.setRegDate(LocalDate.now());
+
         userRepository.save(user);
 
         book = new Book();
@@ -60,6 +61,7 @@ class LoanRepositoryTest {
         book.setMaxLoanDays(60);
         book.setFinePerDay(BigDecimal.ONE);
         book.setDescription("Test description");
+
         bookRepository.save(book);
 
 
@@ -122,8 +124,8 @@ class LoanRepositoryTest {
     }
 
     @Test
-    void findLoansByTerminatedIgnoreCase() {
+    void findLoansByTerminated() {
 
-        assertEquals(1, loanRepository.findLoansByTerminatedIgnoreCase(true).size());
+        assertEquals(1, loanRepository.findLoansByTerminated(true).size());
     }
 }
