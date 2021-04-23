@@ -19,11 +19,4 @@ public class Book {
     private BigDecimal finePerDay;
     private String description;
 
-    /*
-    public Book(String title, int maxLoanDays, BigDecimal finePerDay, String description) {
-        this.title = title;
-        this.maxLoanDays = maxLoanDays;
-        this.finePerDay = finePerDay;
-        this.description = description;
-    }*/
 }
