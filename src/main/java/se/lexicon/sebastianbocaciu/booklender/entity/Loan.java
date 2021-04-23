@@ -21,6 +21,7 @@ public class Loan {
     private Book book;
 
     private LocalDate loanDate;
+
     @Column(name = "_terminated")
     private boolean terminated;
 

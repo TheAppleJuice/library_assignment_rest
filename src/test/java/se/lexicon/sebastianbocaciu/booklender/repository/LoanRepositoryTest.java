@@ -8,6 +8,8 @@ import se.lexicon.sebastianbocaciu.booklender.entity.Book;
 import se.lexicon.sebastianbocaciu.booklender.entity.LibraryUser;
 import se.lexicon.sebastianbocaciu.booklender.entity.Loan;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class LoanRepositoryTest {
 
     Book book;
+    BookRepository bookRepository;
+
     LibraryUser user;
+    LibraryUserRepository userRepository;
 
     Loan testObject;
 
@@ -29,20 +34,47 @@ class LoanRepositoryTest {
         this.loanRepository = loanRepository;
     }
 
+    @Autowired
+    public void setBookRepository(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(LibraryUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @BeforeEach
     void setUp() {
+
+        user = new LibraryUser();
+        user.setName("test user 1");
+        user.setEmail("test1@test.se");
+        user.setRegDate(LocalDate.now());
+        userRepository.save(user);
+
+        book = new Book();
+        book.setTitle("Test title");
+        book.setAvailable(true);
+        book.setReserved(false);
+        book.setMaxLoanDays(60);
+        book.setFinePerDay(BigDecimal.ONE);
+        book.setDescription("Test description");
+        bookRepository.save(book);
+
 
         testObject = new Loan();
         testObject.setLoanTaker(user);
         testObject.setBook(book);
         testObject.setTerminated(true);
+        testObject.setLoanDate(LocalDate.now());
 
         loanRepository.save(testObject);
 
     }
 
     @Test
-    public void test_findById(){
+    public void test_findById() {
         List<Loan> loanList = new ArrayList<>();
         loanRepository.findAll().iterator().forEachRemaining(loanList::add);
         Long expectedId = loanList.get(0).getLoanId();
@@ -52,7 +84,7 @@ class LoanRepositoryTest {
     }
 
     @Test
-    public void test_findAll (){
+    public void test_findAll() {
         List<Loan> loanList = new ArrayList<>();
         loanRepository.findAll().iterator().forEachRemaining(loanList::add);
 
@@ -60,7 +92,7 @@ class LoanRepositoryTest {
     }
 
     @Test
-    public void test_delete(){
+    public void test_delete() {
         List<Loan> loanList = new ArrayList<>();
         loanRepository.delete(testObject);
         List<Loan> emptyList = new ArrayList<>();
@@ -70,6 +102,30 @@ class LoanRepositoryTest {
     }
 
 
+    @Test
+    void findLoansByLoanTakerUserId() {
+        List<Loan> loanList = new ArrayList<>();
+        loanRepository.findAll().iterator().forEachRemaining(loanList::add);
+
+        assertEquals(true, loanRepository.findLoansByLoanTakerUserId(loanList.get(0).getLoanTaker().getUserId()).get(0).isTerminated());
+    }
 
 
+    @Test
+    void findLoansByBook_BookId() {
+        List<Loan> loanList = new ArrayList<>();
+        loanRepository.findAll().iterator().forEachRemaining(loanList::add);
+
+        assertEquals(1, loanRepository.findLoansByBook_BookId(loanList.get(0).getBook().getBookId()).size());
+
+
+    }
+
+    @Test
+    void findLoansByTerminatedIgnoreCase() {
+        List<Loan> loanList = new ArrayList<>();
+        loanRepository.findAll().iterator().forEachRemaining(loanList::add);
+
+        assertEquals(1, loanRepository.findLoansByTerminatedIgnoreCase(true).size());
+    }
 }
