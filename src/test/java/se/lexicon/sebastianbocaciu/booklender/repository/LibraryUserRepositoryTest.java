@@ -72,5 +72,12 @@ class LibraryUserRepositoryTest {
         assertEquals(emptyList, userList);
     }
 
+    @Test
+    public void test_findByEmail(){
+
+        assertEquals("Test User 1", libraryUserRepository.findLibraryUserByEmailIgnoreCase("test1@test.se").get(0).getName());
+
+    }
+
 
 }
