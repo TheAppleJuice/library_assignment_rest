@@ -40,8 +40,8 @@ class BookRepositoryTest {
 
         testBook2 = new Book();
         testBook2.setTitle("Test title 2");
-        testBook2.setAvailable(true);
-        testBook2.setReserved(false);
+        testBook2.setAvailable(false);
+        testBook2.setReserved(true);
         testBook2.setMaxLoanDays(60);
         testBook2.setFinePerDay(BigDecimal.ONE);
         testBook2.setDescription("Test description 2");
@@ -80,4 +80,18 @@ class BookRepositoryTest {
 
     }
 
+    @Test
+    void test_findBooksByAvailable() {
+        assertEquals(60, bookRepository.findBooksByAvailable(true).get(0).getMaxLoanDays());
+    }
+
+    @Test
+    void test_findBooksByReserved() {
+        assertEquals(60, bookRepository.findBooksByReserved(false).get(0).getMaxLoanDays());
+    }
+
+    @Test
+    void test_findBookByTitle() {
+        assertEquals(60, bookRepository.findBookByTitle("Test title").get(0).getMaxLoanDays());
+    }
 }
