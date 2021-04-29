@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface LoanRepository extends CrudRepository<Loan, Long> {
 
-    List<Loan> findLoansByLoanTakerUserId (int userId);
+    List<Loan> findLoansByLoanTakerUserId (long userId);
     List<Loan> findLoansByBook_BookId (int bookId);
     List<Loan> findLoansByTerminated(boolean status);
 }
