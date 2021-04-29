@@ -3,10 +3,14 @@ package se.lexicon.sebastianbocaciu.booklender.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.lexicon.sebastianbocaciu.booklender.dto.BookDto;
+import se.lexicon.sebastianbocaciu.booklender.entity.Book;
 import se.lexicon.sebastianbocaciu.booklender.exception.DataNotFoundException;
 import se.lexicon.sebastianbocaciu.booklender.repository.BookRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BookServiceImpl implements BookService{
 
@@ -26,17 +30,17 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookDto> findByReserved(boolean reserved) {
-        return null;
+        return bookRepository.findBooksByReserved(reserved).stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
     }
 
     @Override
     public List<BookDto> findByAvailable(boolean available) {
-        return null;
+        return bookRepository.findBooksByAvailable(available).stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
     }
 
     @Override
     public List<BookDto> findByTitle(String title) {
-        return null;
+        return bookRepository.findBookByTitle(title).stream().map(book -> modelMapper.map( book, BookDto.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -47,24 +51,46 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookDto> findAll() {
-        return null;
+        List<Book> bookList = new ArrayList<>();
+        bookRepository.findAll().iterator().forEachRemaining(bookList::add);
+        List<BookDto> bookDtoList = bookList.stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
+        return bookDtoList;
     }
 
     @Override
     public BookDto create(BookDto bookDto) {
-        if (bookDto == null) throw new IllegalArgumentException();
-        if (bookDto.getBookId() != 0) throw new IllegalArgumentException();
-        //TODO: finish method implementation
-        return null;
+        if (bookDto == null) throw new IllegalArgumentException("BookDto should not be null");
+        if (bookDto.getBookId() != 0) throw new IllegalArgumentException("Id should not be null");
+        Book bookEntity = modelMapper.map(bookDto, Book.class);
+        Book savedBookToEntity = bookRepository.save(bookEntity);
+        BookDto convertBookToDto = modelMapper.map(savedBookToEntity, BookDto.class);
+        return convertBookToDto;
     }
 
     @Override
-    public BookDto update(BookDto bookDto) {
-        return null;
+    public BookDto update(BookDto bookDto) throws DataNotFoundException {
+        if (bookDto==null) throw new IllegalArgumentException("BookDto should not be null");
+        if (bookDto.getBookId() != 0) throw new IllegalArgumentException("Id should not be null");
+        Optional<Book> optionalBook = bookRepository.findById(bookDto.getBookId());
+        if (optionalBook.isPresent()){
+            Book bookEntity = modelMapper.map(bookDto, Book.class);
+            Book savedBookToEntity = bookRepository.save(bookEntity);
+            BookDto convertBookToDto = modelMapper.map(savedBookToEntity, BookDto.class);
+            return convertBookToDto;
+
+        } else throw new DataNotFoundException ("BookDto not found");
+
     }
 
     @Override
     public boolean delete(int bookId) {
-        return false;
+        if (bookId ==0) throw new IllegalArgumentException("Id should not be null");
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if (optionalBook.isPresent()){
+            Book bookEntity = modelMapper.map(optionalBook, Book.class);
+            bookRepository.delete(bookEntity);
+            return true;
+
+        } else throw new IllegalArgumentException("Book not deleted");
     }
 }

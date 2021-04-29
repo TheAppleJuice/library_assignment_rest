@@ -13,6 +13,6 @@ public interface BookService {
     BookDto findById(int bookId) throws DataNotFoundException;
     List<BookDto> findAll();
     BookDto create (BookDto bookDto);
-    BookDto update (BookDto bookDto);
+    BookDto update (BookDto bookDto) throws DataNotFoundException;
     boolean delete (int bookId);
 }
