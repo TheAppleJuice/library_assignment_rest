@@ -1,7 +1,6 @@
 package se.lexicon.sebastianbocaciu.booklender.service;
 
 import se.lexicon.sebastianbocaciu.booklender.dto.BookDto;
-import se.lexicon.sebastianbocaciu.booklender.entity.Book;
 import se.lexicon.sebastianbocaciu.booklender.exception.DataNotFoundException;
 
 import java.util.List;
@@ -14,5 +13,5 @@ public interface BookService {
     List<BookDto> findAll();
     BookDto create (BookDto bookDto);
     BookDto update (BookDto bookDto) throws DataNotFoundException;
-    boolean delete (int bookId);
+    void delete (int bookId) throws DataNotFoundException;
 }

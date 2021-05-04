@@ -12,14 +12,15 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long loanId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "library_user_user_id")
     private LibraryUser loanTaker;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "book_book_id")
     private Book book;
 
+    @Column (nullable = false)
     private LocalDate loanDate;
 
     @Column(name = "_terminated")

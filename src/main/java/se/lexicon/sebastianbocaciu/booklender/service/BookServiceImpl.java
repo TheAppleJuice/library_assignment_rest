@@ -2,6 +2,7 @@ package se.lexicon.sebastianbocaciu.booklender.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.sebastianbocaciu.booklender.dto.BookDto;
 import se.lexicon.sebastianbocaciu.booklender.entity.Book;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class BookServiceImpl implements BookService {
 
     BookRepository bookRepository;
@@ -49,7 +51,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto findById(int bookId) throws DataNotFoundException {
         if (bookId == 0) throw new IllegalArgumentException("Id should not be null");
-        return modelMapper.map(bookRepository.findById(bookId).orElseThrow(() -> new DataNotFoundException("BookDto not found")), BookDto.class);
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if (optionalBook.isPresent()){
+            BookDto convertToDto = modelMapper.map(optionalBook.get(), BookDto.class);
+            return convertToDto;
+        } else throw new DataNotFoundException("BookDto not found");
+
     }
 
     @Override
@@ -91,14 +98,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean delete(int bookId) {
-        if (bookId == 0) throw new IllegalArgumentException("Id should not be null");
+    public void delete(int bookId) throws DataNotFoundException{
+        /*if (bookId == 0) throw new IllegalArgumentException("Id should not be null");
         Optional<Book> optionalBook = bookRepository.findById(bookId);
         if (optionalBook.isPresent()) {
             Book bookEntity = modelMapper.map(optionalBook, Book.class);
             bookRepository.delete(bookEntity);
             return true;
 
-        } else throw new IllegalArgumentException("Book not deleted");
+        } else throw new IllegalArgumentException("Book not deleted");*/
+
+        bookRepository.delete(modelMapper.map(bookRepository.findById(bookId)
+                .orElseThrow(()->new DataNotFoundException("Id ")),Book.class));
     }
 }

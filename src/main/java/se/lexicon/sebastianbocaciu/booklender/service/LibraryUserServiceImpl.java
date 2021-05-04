@@ -2,6 +2,7 @@ package se.lexicon.sebastianbocaciu.booklender.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.sebastianbocaciu.booklender.dto.LibraryUserDto;
 import se.lexicon.sebastianbocaciu.booklender.entity.LibraryUser;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class LibraryUserServiceImpl implements LibraryUserService {
 
     LibraryUserRepository libraryUserRepository;
