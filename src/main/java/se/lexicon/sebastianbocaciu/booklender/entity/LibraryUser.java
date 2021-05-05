@@ -13,7 +13,10 @@ public class LibraryUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
     private LocalDate regDate;
+
+    @Column(nullable = false)
     private String name;
+
     @Column(unique = true)
     private String email;
 
