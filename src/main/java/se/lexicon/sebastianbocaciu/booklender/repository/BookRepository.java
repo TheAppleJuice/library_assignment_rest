@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface BookRepository extends CrudRepository <Book, Integer> {
 
-    List<Book> findBooksByAvailable (boolean status);
-    List<Book> findBooksByReserved (boolean status);
+    List<Book> findByAvailable (boolean status);
+    List<Book> findByReserved (boolean status);
     List<Book> findBookByTitle (String title);
 
 

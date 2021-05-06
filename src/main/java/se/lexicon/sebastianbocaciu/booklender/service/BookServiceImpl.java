@@ -33,13 +33,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> findByReserved(boolean reserved) {
-        return bookRepository.findBooksByReserved(reserved).stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
+        return bookRepository.findByReserved(reserved).stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
     }
 
     @Override
     public List<BookDto> findByAvailable(boolean available) {
 
-        return bookRepository.findBooksByAvailable(available).stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
+        return bookRepository.findByAvailable(available).stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
     }
 
     @Override

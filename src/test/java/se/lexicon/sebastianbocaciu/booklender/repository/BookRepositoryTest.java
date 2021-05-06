@@ -82,12 +82,12 @@ class BookRepositoryTest {
 
     @Test
     void test_findBooksByAvailable() {
-        assertEquals(60, bookRepository.findBooksByAvailable(true).get(0).getMaxLoanDays());
+        assertEquals(60, bookRepository.findByAvailable(true).get(0).getMaxLoanDays());
     }
 
     @Test
     void test_findBooksByReserved() {
-        assertEquals(60, bookRepository.findBooksByReserved(false).get(0).getMaxLoanDays());
+        assertEquals(60, bookRepository.findByReserved(false).get(0).getMaxLoanDays());
     }
 
     @Test
