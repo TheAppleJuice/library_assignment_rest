@@ -71,7 +71,7 @@ public class LibraryUserServiceImpl implements LibraryUserService {
         if (optionalLibraryUser.isPresent()) {
             LibraryUser libraryUserEntity = modelMapper.map(libraryUserDto, LibraryUser.class);
             LibraryUser savedToEntity = libraryUserRepository.save(libraryUserEntity);
-            LibraryUserDto convertToDto = modelMapper.map(libraryUserEntity, LibraryUserDto.class);
+            LibraryUserDto convertToDto = modelMapper.map(savedToEntity, LibraryUserDto.class);
             return convertToDto;
         } else throw new DataNotFoundException("LibraryUserDto not found");
     }

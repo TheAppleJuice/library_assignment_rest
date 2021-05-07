@@ -94,8 +94,16 @@ public class LoanServiceImpl implements LoanService {
     public LoanDto update(LoanDto loanDto) throws DataNotFoundException {
         if (loanDto == null) throw new IllegalArgumentException("LoanDto should not be null");
         if (loanDto.getLoanId() == 0) throw new IllegalArgumentException("Id should not be null");
+        Optional<Loan> optionalLoan = loanRepository.findById(loanDto.getLoanId());
+        if (optionalLoan.isPresent()){
+            Loan loanEntity = modelMapper.map(loanDto, Loan.class);
+            Loan updatedLoanEntity = loanRepository.save(loanEntity);
+            LoanDto convertToDto = modelMapper.map(updatedLoanEntity, LoanDto.class);
 
-        return null;
+            return convertToDto;
+        }
+
+        else throw new DataNotFoundException("LoanDto not found");
     }
 
     @Override
